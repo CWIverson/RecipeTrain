@@ -14,7 +14,7 @@ class RecipesController < ApplicationController
     def new
         if params[:user_id]  # Making a New Outfit Associated with a User
             find_user
-            @outfit = @user.outfits.build
+            @outfit = @user.recipes.build
         end
 
     end
@@ -24,15 +24,12 @@ class RecipesController < ApplicationController
             find_user
             @recipe = @user.recipe.build(recipe_params)    #build out an outfit ;D
         else
-            @outfit = Outfit.new(outfit_params)
+            @recipe = Recipe.new(recipe_params)
         end
 
-        if @outfit.save
+        if @recipe.save
             if @user
-                redirect_to user_outfit_path(@user, @outfit)
-            else
-                redirect_to @outfit    #little shortcut ;)
-                  # outfit_path(@outfit) 
+                redirect_to user_recipe_path(@user, @recipe)   
             end
         else
             render :new
