@@ -1,35 +1,33 @@
 class RecipesController < ApplicationController
     def index
-        if params[:user_id] 
-            find_user
-     
-            @recipes = @user.recipes
-        else
-            @recipes = Recipe.all
-          
-         end
+        
+        @recipes = Recipe.all
+        
+    end
+    def show
+        @recipe= Recipe.find(params[:id])
 
     end
     
     def new
-        if params[:user_id]  # Making a New Outfit Associated with a User
-            find_user
-            @outfit = @user.recipes.build
-        end
-
+        user_id = session[:user_id]
+        user = User.find(user_id) 
+        #find_user
+        @recipe = user.recipes.build
+        
     end
 
     def create
-        if params[:user_id]
-            find_user
-            @recipe = @user.recipe.build(recipe_params)    #build out an outfit ;D
-        else
-            @recipe = Recipe.new(recipe_params)
-        end
+        
+        user_id = session[:user_id]
+        user = User.find(user_id) 
+             
+            @recipe = Recipe.create(recipe_params.merge(:user_id=>user_id))
+        
 
         if @recipe.save
-            if @user
-                redirect_to user_recipe_path(@user, @recipe)   
+            if user
+                redirect_to recipes_path   
             end
         else
             render :new

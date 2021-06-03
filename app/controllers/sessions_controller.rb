@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         end
 
         if user.valid?
-            redirect_to '/'
+            render 'homepage/index'
         else
             print "fail"
         end

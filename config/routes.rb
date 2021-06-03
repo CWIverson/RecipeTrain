@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#omniauth'
   get '/signup', to: 'users#new', as: 'signup'
 
+
+  resources :recipes
+  get '/index', to: "recipes#index", as: 'index'
+  get '/new', to: 'recipes#new', as: 'new'
+
+
   root 'homepage#index'
 
 
