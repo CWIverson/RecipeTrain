@@ -22,7 +22,7 @@ class RecipesController < ApplicationController
         user_id = session[:user_id]
         user = User.find(user_id) 
              
-            @recipe = Recipe.create(recipe_params.merge(:user_id=>user_id))
+        @recipe = Recipe.create(recipe_params.merge(:user_id=>user_id))
         
 
         if @recipe.save
@@ -30,10 +30,21 @@ class RecipesController < ApplicationController
                 redirect_to recipes_path   
             end
         else
+            # flash[:errors]=@recipe.errors.full_messages
+            flash.now.alert = @recipe.errors.full_messages
+
             render :new
-        end
-        
+        end  
     end
+
+    def destroy
+
+    end
+
+    def update
+
+    end
+
     private
     def find_recipe
         @recipe = Recipe.find_by_id(params[:id])

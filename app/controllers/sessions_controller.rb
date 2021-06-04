@@ -9,9 +9,11 @@ class SessionsController < ApplicationController
             session[:user_id]=user.id
             redirect_to '/'
         else
+            # flash[:errors]= ['Username or Password is Incorrect']
+            flash.now.alert =["Username or password is incorrect"]
             render 'sessions/new'
         end
-
+        
     end
     def destroy
         reset_session

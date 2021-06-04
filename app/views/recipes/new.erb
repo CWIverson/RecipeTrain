@@ -5,5 +5,12 @@
     <%=t.text_field :name%>
     <%=t.label :instructions%>
     <%=t.text_field :instructions%>
+    <%= t.collection_check_boxes(:ingredient, :ingredient_ids, Ingredient.all, :id, :name)  %>
     <%=t.submit%>
+<%end%>
+ 
+<% if flash[:alert] %>
+    <% flash[:alert].each do |t| %>
+        <p><%=t%></p>
+    <%end%>
 <%end%>
