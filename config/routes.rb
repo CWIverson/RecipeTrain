@@ -7,14 +7,13 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new', as: 'signup'
   get '/users/:id', to: "users#show", as: "userinfo"
 
-  resources :recipes
-  get '/index', to: "recipes#index", as: 'recipe_index'
-  get '/new', to: 'recipes#new', as: 'recipe_new'
-
+  resources :recipes  do
+    resources :recipe_ingredients
+    post '/recipe_ingredients/new', to: 'recipe_ingredients#create'
+  end
+ 
   resources :ingredients
-  get 'index', to: 'ingredients#index', as: 'ingredient_index'
-  get 'new', to: 'ingredients#new', as: 'ingredient_new'
-
+  
   post 'add_to_recipe', to: 'ingredients#add_to_recipe', as: 'add_to_recipe'
   root 'homepage#index'
 

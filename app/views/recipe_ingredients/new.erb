@@ -1,0 +1,24 @@
+<%= form_with model: @user_hobby do |f| %>
+
+
+    <%= f.collection_select :recipe_id, Recipe.all, :id, :name %>
+
+    
+        <%= f.label :instructions %>
+        <%= f.text_field :instructions %>
+    
+    
+    <%= f.collection_select :ingredient_id, Ingredient.all, :id, :name %>
+
+    
+        <br><br>
+
+            <%= f.submit %>
+
+        <br><br>
+
+
+    <!--  Time Spent and Enjoying Will Be Nil For Now  -  But We Can Spend Time Building Starting Functionality Ex: Someone Adding a Hobby They've Been Doing Already for 12years 🤷🏾‍♂️ -->
+
+
+<% end %>

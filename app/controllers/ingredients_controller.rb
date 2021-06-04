@@ -1,6 +1,6 @@
 class IngredientsController < ApplicationController
     def index
-        @ingredients = Ingredient.all
+        @ingredients = Ingredient.sort_ingredients
     end
 
     def new
@@ -20,9 +20,7 @@ class IngredientsController < ApplicationController
        
 
     end
-    def add_to_recipe
-        join=Recipe_Ingredients(params[:id].merge) 
-    end
+    
 
     private
     def ingredient_params
