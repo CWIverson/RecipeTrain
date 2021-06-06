@@ -4,7 +4,17 @@ class SessionsController < ApplicationController
     end
 
     def create
+        # u = User.find_by_email(params[:email])
+        # if u && u.authenticate(params[:password])
+        #     session[:user_id] = u.id
+        #     redirect_to user_path(u)
+        # else
+        #     #flash[:errors]= ['Username or Password is Incorrect']
+        #     flash.now.alert =["Username or password is incorrect"]
+        #     render 'sessions/new'
+        # end
         user=User.find_by(username: params[:username]) 
+        # byebug
         if user&&user.authenticate(params[:password])
             session[:user_id]=user.id
             redirect_to '/'
@@ -21,18 +31,16 @@ class SessionsController < ApplicationController
     end
 
     def omniauth
-        
-       user=User.find_or_create_by(uid: auth['uid'], provider: auth['provider']) do |u|
-            u.username = auth['info']['first_name']
-            u.email = auth['info']['email']
-            u.password = SecureRandom.hex(16)
-        end
-
+        user = User.create_from_omniauth(auth)
+        #byebug
         if user.valid?
-            render 'homepage/index'
+            session[:user_id] = user.id
+            redirect_to '/'
         else
-            print "fail"
+           # flash[:message] = user.errors.full_messages.join(", ")
+            redirect_to new_user_path
         end
+      
     end
 
     private

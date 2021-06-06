@@ -4,15 +4,23 @@ class RecipeIngredientsController < ApplicationController
 
     end
     def new
+        url = request.original_url.split('/')
+         recipe_id = url[4].to_i
+         recipe = Recipe.find(recipe_id)
         @recipe_ingredient = RecipeIngredient.new
     end
 
     def create
-        # recipe_id = Recipe.
+        url = request.original_url.split('/')
+        recipe_id = url[4].to_i
+        recipe = Recipe.find(recipe_id)
+         #binding.pry
         # user = User.find(user_id) 
-        @recipe_ingredient = Recipe.recipe_ingredients.build(recipe_ingredient_params)
+        @recipe_ingredient = recipe.recipe_ingredients.build(recipe_ingredient_params)
+
        if @recipe_ingredient.save
-           redirect_to recipe_ingredients_path
+            #byebug
+           redirect_to recipe_recipe_ingredients_path
        else
           
            flash.now.alert = @recipe_ingredient.errors.full_messages
@@ -22,11 +30,14 @@ class RecipeIngredientsController < ApplicationController
    end
 
    private
+   def instruction
+    recipe_ingredient_params[:instruction]
+   end
    def find_recipe_ingredient
     @recipe_ingredient = RecipeIngredients.find_by_id(params[:id])
    end
    def recipe_ingredient_params 
-    params.require(:recipe_ingredients).permit(:recipe_id, :instructions, :ingredient_id)
+    params.require(:recipe_ingredient).permit(:recipe_id, :instruction, :ingredient_id)
 
    end
 end

@@ -14,9 +14,9 @@ class RecipesController < ApplicationController
         user_id = session[:user_id]
         user = User.find(user_id) 
         #find_user
-        3.times do
+        
         @recipe = user.recipes.build
-        end
+        
     end
 
     def create
@@ -52,6 +52,7 @@ class RecipesController < ApplicationController
         @recipe = Recipe.find_by_id(params[:id])
     end
     def recipe_params
+        #byebug
         params.require(:recipe).permit(:name, :user_id)
     end 
     def find_user
