@@ -4,8 +4,5 @@ class Ingredient < ApplicationRecord
     validates_presence_of :name
     validates_uniqueness_of :name
 
-
     scope :sort_ingredients, -> { order("name") }
-
-
 end

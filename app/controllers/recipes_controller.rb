@@ -1,30 +1,22 @@
 class RecipesController < ApplicationController
     def index
-        
-        @recipes = Recipe.all
-        
+        @recipes = Recipe.all  
     end
+
     def show
         @recipe= Recipe.find(params[:id])
 
     end
     
     def new
-        # binding.pry
         user_id = session[:user_id]
         user = User.find(user_id) 
-        #find_user
-        
-        @recipe = user.recipes.build
-        
+        @recipe = user.recipes.build      
     end
 
-    def create
-        
+    def create       
         user_id = session[:user_id]
         user = User.find(user_id) 
-             
-        #@recipe = Recipe.create(recipe_params.merge(:user_id=>user_id))
         @recipe = user.recipes.build(recipe_params)
 
         if @recipe.save
@@ -32,9 +24,7 @@ class RecipesController < ApplicationController
                 redirect_to  new_recipe_recipe_ingredient_path(@recipe)
             end
         else
-            # flash[:errors]=@recipe.errors.full_messages
             flash.now.alert = @recipe.errors.full_messages
-
             render :new
         end  
     end
@@ -51,12 +41,13 @@ class RecipesController < ApplicationController
     def find_recipe
         @recipe = Recipe.find_by_id(params[:id])
     end
+
     def recipe_params
-        #byebug
+        
         params.require(:recipe).permit(:name, :user_id)
     end 
+
     def find_user
         @user = User.find_by_id(params[:user_id])
     end
-
 end

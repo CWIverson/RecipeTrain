@@ -12,14 +12,15 @@ class RecipeIngredientsController < ApplicationController
 
     def create
         url = request.original_url.split('/')
+
         recipe_id = url[4].to_i
+
         recipe = Recipe.find(recipe_id)
-         #binding.pry
-        # user = User.find(user_id) 
+       
         @recipe_ingredient = recipe.recipe_ingredients.build(recipe_ingredient_params)
 
        if @recipe_ingredient.save
-            #byebug
+            
            redirect_to recipe_recipe_ingredients_path
        else
           
@@ -30,14 +31,18 @@ class RecipeIngredientsController < ApplicationController
    end
 
    private
+
    def instruction
     recipe_ingredient_params[:instruction]
    end
+
    def find_recipe_ingredient
+    
     @recipe_ingredient = RecipeIngredients.find_by_id(params[:id])
    end
-   def recipe_ingredient_params 
-    params.require(:recipe_ingredient).permit(:recipe_id, :instruction, :ingredient_id)
 
+   def recipe_ingredient_params 
+
+    params.require(:recipe_ingredient).permit(:recipe_id, :instruction, :ingredient_id)
    end
 end
